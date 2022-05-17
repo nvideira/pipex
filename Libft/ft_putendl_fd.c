@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 18:41:52 by nvideira          #+#    #+#             */
-/*   Updated: 2022/05/16 17:35:20 by nvideira         ###   ########.fr       */
+/*   Created: 2021/10/30 19:45:43 by nvideira          #+#    #+#             */
+/*   Updated: 2021/10/30 20:39:20 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include <unistd.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include "Libft/libft.h"
-# include "ft_printf/ft_printf.h"
+#include "libft.h"
 
-typedef struct s_pipex
+void	ft_putendl_fd(char *s, int fd)
 {
-	int		infile;
-	int		outfile;
-	int		bridge[2];
-	pid_t	child;
-	int		cmds;
-}	t_pipex;
+	unsigned int	i;
 
-#endif
+	i = 0;
+	if (!s || !fd)
+		return ;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+	write(fd, "\n", 1);
+}

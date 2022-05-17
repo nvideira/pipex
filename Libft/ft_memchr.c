@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 18:41:52 by nvideira          #+#    #+#             */
-/*   Updated: 2022/05/16 17:35:20 by nvideira         ###   ########.fr       */
+/*   Created: 2021/10/21 18:28:47 by nvideira          #+#    #+#             */
+/*   Updated: 2021/10/31 20:26:48 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include <unistd.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include "Libft/libft.h"
-# include "ft_printf/ft_printf.h"
+#include "libft.h"
 
-typedef struct s_pipex
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	int		infile;
-	int		outfile;
-	int		bridge[2];
-	pid_t	child;
-	int		cmds;
-}	t_pipex;
+	unsigned char	*src;
+	unsigned int	i;
 
-#endif
+	i = 0;
+	src = (unsigned char *)s;
+	while (i < n)
+	{
+		if (src[i] == (unsigned char )c)
+			return (src + i);
+		i++;
+	}
+	return (NULL);
+}

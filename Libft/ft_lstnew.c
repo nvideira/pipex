@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 18:41:52 by nvideira          #+#    #+#             */
-/*   Updated: 2022/05/16 17:35:20 by nvideira         ###   ########.fr       */
+/*   Created: 2021/10/30 22:18:14 by nvideira          #+#    #+#             */
+/*   Updated: 2021/10/31 00:58:18 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include <unistd.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include "Libft/libft.h"
-# include "ft_printf/ft_printf.h"
+#include "libft.h"
 
-typedef struct s_pipex
+t_list	*ft_lstnew(void *content)
 {
-	int		infile;
-	int		outfile;
-	int		bridge[2];
-	pid_t	child;
-	int		cmds;
-}	t_pipex;
+	t_list	*nuno;
 
-#endif
+	nuno = malloc(sizeof(t_list));
+	if (!nuno)
+		return (NULL);
+	nuno->content = content;
+	nuno->next = NULL;
+	return (nuno);
+}

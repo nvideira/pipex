@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/08 18:41:52 by nvideira          #+#    #+#             */
-/*   Updated: 2022/05/16 17:35:20 by nvideira         ###   ########.fr       */
+/*   Created: 2021/10/28 14:41:24 by nvideira          #+#    #+#             */
+/*   Updated: 2021/10/28 17:00:55 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include <unistd.h>
-# include <fcntl.h>
-# include <errno.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include "Libft/libft.h"
-# include "ft_printf/ft_printf.h"
+#include "libft.h"
 
-typedef struct s_pipex
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		infile;
-	int		outfile;
-	int		bridge[2];
-	pid_t	child;
-	int		cmds;
-}	t_pipex;
+	char			*trim;
+	size_t			len;
+	unsigned int	start;
 
-#endif
+	if (s1 == NULL)
+		return (NULL);
+	len = ft_strlen(s1);
+	start = 0;
+	while (ft_strchr(set, *(s1 + start)) != 0)
+		start++;
+	while (ft_strchr(set, *(s1 + len - 1)) != 0)
+		len--;
+	trim = ft_substr(s1, start, (len - start));
+	return (trim);
+}

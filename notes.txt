@@ -1,0 +1,107 @@
+funçāo open:
+-----------------------
+library: <fcntl.h>
+prototype: int	open(const char *path, int oflag, ...);
+return: file descriptor of the opened file;
+description: "opens" a file and assigns a file descriptor to it.
+__________________________________________________________________
+
+funçāo execve:
+-----------------------
+library: <unistd.h>
+prototype: int	execve(const char *path, const char *argv[], const char *envp[]);
+return: Nothing on success; -1 on failure;
+description: executes the program pointed to by [path]; argv is an array of
+	argument strings, the first of which conventionally contains the filename
+	associated with the file being executed; envp is an array of strings, conventionally
+	in the form of KEY=value, passed as environment to the new program; both
+	argv and envp should be terminated by a NULL pointer.
+__________________________________________________________________
+
+funçāo access:
+-----------------------
+library: <unistd.h>
+prototype: int	access(const char *path, int mode);
+return: if the requested access is permited, returns 0; else returns -1;
+description: 
+___________________________________________________________________
+
+funçāo close:
+-----------------------
+library: <unistd.h>
+prototype: int	close(int fd);
+return: if successful, returns 0; else returns -1;
+description: closes a file descriptor, so that it no longer refers to any file and may be reused.
+___________________________________________________________________
+
+funçāo dup/dup2:
+-----------------------
+library: <unistd.h>
+prototypes:	int	dup(int oldfd);
+			int	dup2(int oldfd, int newfd);
+return: returns the new file descriptor; -1 if it fails;
+description: creates a copy of the old file desciptor (oldfd).
+__________________________________________________________________
+
+funçāo fork:
+-----------------------
+library: <unistd.h>
+prototype: pid_t	fork(void);
+return: returns the PID of the child process in the parent and 0 in the child;
+	returns -1 in parent if it fails and no child is created.
+description: creates a new process by duplicating the calling process
+__________________________________________________________________
+
+funçāo pipe:
+----------------------
+library: <unistd.h>
+prototype: int	pipe(int fd[2]);
+return: 0 if successful; -1 if it fails;
+description: creates a pipe and places 2 file descriptors, one in each of the
+	arguments fd[0] and fd[1], that refer to the open file descriptions for the
+	read and write ends of the pipe.
+__________________________________________________________________
+
+funçāo unlink:
+----------------------
+library: <unistd.h>
+prototype: int	unlink(const char *path);
+return: 0 if successful; -1 if it fails;
+description: removes a link to a file. when the file's lnk count becomes 0 and
+	no process has the file open, the space occupied by the file will be freed
+	ad the file will no longer be accessible.
+__________________________________________________________________
+funçāo wait/waitpid:
+----------------------
+library: <sys/wait.h>
+prototypes:	pid_t	wait(int *stat_loc);
+			pid_t	waitpid(pid_t pid, int *stat_loc, int options);
+return: If these functions return because the status of a child process is
+	available, these functions will return a value equal to the process ID of
+	the child process for which status is reported. If wait() or waitpid()
+	returns due to the delivery of a signal to the calling process, -1 will be returned;
+description: these functions allow the calling process to obtain status information
+	pertaining to one one of its child processes.The wait() function will suspend
+	execution of the calling thread until status information for one of its
+	terminated child processes is available, or until delivery of a signal whose
+	action is either to execute a signal-catching function or to terminate the process.
+		In the waitpid() function: the pid argument specifies a set of child
+	processes for which the status is requested. The options argument is constructed
+	from the bitwise-inclusive OR of zero or more flags.
+__________________________________________________________________
+funçāo exit:
+--------------------
+library: <stdlib.h>
+prototype: void	exit(int status);
+return: does not return anything;
+description: causes normal process termination and the least significant byte of
+	status is returned to the parent.
+__________________________________________________________________
+funçāo perror:
+--------------------
+libraries: 	<stdio.h>
+			<errno.h>
+prototype: void	perror(const char *s);
+return: does not return;
+description: produces a message in standard error describing the last error
+	encoutered during a call to a system or library function.
