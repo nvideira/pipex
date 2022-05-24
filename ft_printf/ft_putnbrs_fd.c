@@ -6,13 +6,13 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 19:49:26 by nvideira          #+#    #+#             */
-/*   Updated: 2021/12/13 20:56:05 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:57:15 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putnbr_fd(int n, int fd)
+int	ft_putinbr_fd(int n, int fd)
 {
 	int	count;
 
@@ -32,11 +32,11 @@ int	ft_putnbr_fd(int n, int fd)
 		}
 		if (n >= 10)
 		{
-			count += ft_putnbr_fd((n / 10), fd);
-			count += ft_putnbr_fd((n % 10), fd);
+			count += ft_putinbr_fd((n / 10), fd);
+			count += ft_putinbr_fd((n % 10), fd);
 		}
 		else
-			count += ft_putchar_fd((n + '0'), fd);
+			count += ft_putchari_fd((n + '0'), fd);
 	}
 	return (count);
 }
@@ -52,6 +52,6 @@ int	ft_putunsnbr_fd(unsigned int n, int fd)
 		count += ft_putunsnbr_fd((n % 10), fd);
 	}
 	else
-		count += ft_putchar_fd((n + '0'), fd);
+		count += ft_putchari_fd((n + '0'), fd);
 	return (count);
 }

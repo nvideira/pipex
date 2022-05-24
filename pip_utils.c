@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   pip_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/30 19:21:36 by nvideira          #+#    #+#             */
-/*   Updated: 2022/05/21 07:52:47 by nvideira         ###   ########.fr       */
+/*   Created: 2022/05/21 12:45:09 by nvideira          #+#    #+#             */
+/*   Updated: 2022/05/21 12:45:38 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "pipex.h"
 
-int	ft_putchari_fd(char c, int fd)
+int	ft_strichr(const char *s, int start, int c)
 {
-	write(fd, &c, 1);
-	return (1);
+	while (s[start] != (char )c && s[start] != '\0')
+		start++;
+	if (s[start] == (char )c)
+		return (start);
+	else
+		return (-1);
 }

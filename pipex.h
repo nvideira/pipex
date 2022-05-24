@@ -6,7 +6,7 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 18:41:52 by nvideira          #+#    #+#             */
-/*   Updated: 2022/05/16 17:35:20 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/05/24 18:26:36 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,13 @@ typedef struct s_pipex
 	int		infile;
 	int		outfile;
 	int		bridge[2];
-	pid_t	child;
-	int		cmds;
+	pid_t	pid1;
+	pid_t	pid2;
+	char	**cmds;
+	char	*path;
+	int		read;
 }	t_pipex;
+
+int	ft_strichr(const char *s, int start, int c);
 
 #endif

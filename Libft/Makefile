@@ -6,7 +6,7 @@
 #    By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 01:36:26 by nvideira          #+#    #+#              #
-#    Updated: 2021/12/01 17:47:43 by nvideira         ###   ########.fr        #
+#    Updated: 2022/05/21 12:55:26 by nvideira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,12 +40,9 @@ SOURCES=	ft_atoi.c\
 			ft_itoa.c\
 			ft_strmapi.c\
 			ft_striteri.c\
-			ft_putchar_fd.c\
-			ft_putstr_fd.c\
 			ft_putendl_fd.c\
-			ft_putnbr_fd.c\
 			ft_strljoin.c\
-			get_next_line.c
+			#get_next_line.c
 
 BONUS=		ft_lstnew.c\
 			ft_lstadd_front.c\

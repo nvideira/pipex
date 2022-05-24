@@ -6,13 +6,13 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 19:33:11 by nvideira          #+#    #+#             */
-/*   Updated: 2021/12/13 22:06:29 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:55:48 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putstr_fd(char *s, int fd)
+int	ft_putstri_fd(char *s, int fd)
 {
 	unsigned int	i;
 

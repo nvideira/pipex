@@ -50,3 +50,11 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Project Specific
+.DS_Store
+output.txt
+pipex.code-workspace
+test
+notes.txt
+Libft/.DS_Store

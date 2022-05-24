@@ -6,7 +6,7 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/01 19:46:41 by nvideira          #+#    #+#             */
-/*   Updated: 2021/12/13 22:27:22 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/05/21 07:52:53 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	do_thing(size_t index, char *string, int char_print, va_list args)
 	{
 		if (string[index] != '%')
 		{
-			ft_putchar_fd(string[index], 1);
+			ft_putchari_fd(string[index], 1);
 			char_print++;
 		}
 		else

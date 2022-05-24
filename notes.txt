@@ -23,7 +23,8 @@ funçāo access:
 library: <unistd.h>
 prototype: int	access(const char *path, int mode);
 return: if the requested access is permited, returns 0; else returns -1;
-description: 
+description: checks the file pointed to by the "path" argument for accessibility
+	according to the bit pattern contained in "mode".
 ___________________________________________________________________
 
 funçāo close:
