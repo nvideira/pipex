@@ -6,11 +6,11 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 15:18:53 by nvideira          #+#    #+#             */
-/*   Updated: 2021/12/01 17:42:18 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/05/25 12:24:00 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 static char	*throw_it(char **storage)
 {

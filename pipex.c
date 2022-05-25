@@ -6,7 +6,7 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 02:51:01 by nvideira          #+#    #+#             */
-/*   Updated: 2022/05/24 18:54:53 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/05/25 18:44:49 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,24 @@ char	*find_path(char *cmd, char **envp)
 	if (!envp[i])
 		return (cmd);
 	path = envp[i];
-	printf("complete path is %s\n", path);
 	while (path[j] && ft_strichr(path, j, ':') > -1)
 	{
-		dir = ft_substr(path, j, ft_strichr(path, j, ':') - j);
-		printf("dir contains %s\n", dir);
+		dir = ft_substring(path, j, ft_strichr(path, j, ':') - j);
 		ret_path = ft_strjoin(dir, cmd);
 		free(dir);
-		//printf("path is %s\n", ret_path);
-		if (access(path, F_OK) == 0)
+		if (!access(ret_path, F_OK))
 			return (ret_path);
 		free(ret_path);
-		j += ft_strichr(path, j, ':') + 1;
+		j += ft_strichr(path, j, ':') - j + 1;
+	}
+	if (path[j] && ft_strichr(path, j, ':') < 0)
+	{
+		dir = ft_substring(path, j, ft_strichr(path, j, ':') - j);
+		ret_path = ft_strjoin(dir, cmd);
+		free(dir);
+		if (!access(ret_path, F_OK))
+			return (ret_path);
+		free(ret_path);
 	}
 	return (cmd);
 }
@@ -46,23 +52,20 @@ char	*find_path(char *cmd, char **envp)
 int	ft_pipex(t_pipex pipex, char **argv, char **envp)
 {
 	if (pipe(pipex.bridge) < 0)
-		return (-1);
+		perror("Piping failed");
 	pipex.pid1 = fork();
 	if (pipex.pid1 < 0)
 		return (-1);
 	if (pipex.pid1 == 0)
 	{
-		printf("child1 pid is %d\n", pipex.pid1);
 		close(pipex.bridge[0]);
 		dup2(pipex.infile, STDIN_FILENO);
-		//dup2(pipex.bridge[1], STDOUT_FILENO);
+		dup2(pipex.bridge[1], STDOUT_FILENO);
 		pipex.path = find_path(argv[2], envp);
-		//printf("path is %s\n", pipex.path);
 		pipex.cmds = ft_split(argv[2], ' ');
 		execve(pipex.path, pipex.cmds, envp);
 	}
-	if (pipe(pipex.bridge) < 0)
-		return (-1);
+	close(pipex.bridge[1]);
 	pipex.pid2 = fork();
 	if (pipex.pid2 < 0)
 		return (-1);
@@ -75,6 +78,7 @@ int	ft_pipex(t_pipex pipex, char **argv, char **envp)
 		pipex.cmds = ft_split(argv[3], ' ');
 		execve(pipex.path, pipex.cmds, envp);
 	}
+	close(pipex.bridge[0]);
 	wait(NULL);
 	wait(NULL);
 	return (0);
@@ -86,19 +90,17 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	pipex;
 
 	if (argc < 5)
-		return (ft_printf("Please insert at least 4 arguments.\n"));
+		return (ft_printf("Please insert at exactly 4 arguments.\n"));
 	pipex.infile = open(argv[1], O_RDONLY);
 	if (pipex.infile < 0)
-	{
 		perror("Infile");
-		return (-1);
-	}
 	pipex.outfile = open(argv[argc - 1], O_TRUNC | O_RDWR | O_CREAT, 0644);
 	if (pipex.outfile < 0)
-	{
 		perror("Outfile");
-		return (-1);
-	}
 	ft_pipex(pipex, argv, envp);
+	close(pipex.infile);
+	close(pipex.outfile);
+	//printf("%d\n", getpid());
+	//getchar();
 	return (0);
 }

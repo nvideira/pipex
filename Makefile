@@ -6,7 +6,7 @@
 #    By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/06 02:51:23 by nvideira          #+#    #+#              #
-#    Updated: 2022/05/24 16:32:01 by nvideira         ###   ########.fr        #
+#    Updated: 2022/05/25 12:52:55 by nvideira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ NAME=		pipex
 LIBFT=		Libft/libft.a
 LIBFT_DIR=	libft
 
+INCLUDES	= -I Libft -I Libft/get_next_line -I ft_printf -I .
+
 PRINTF=		ft_printf/libftprintf.a
 PRINTF_DIR=	ft_printf
 
@@ -27,7 +29,9 @@ CC=			gcc
 CFLAGS=		-Wall -Wextra -Werror
 
 .c.o:
-	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $(<:.c=.o)
+
+all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) $(PRINTF)
 	@printf "\033[93mPiping.  \033[0m \r"
@@ -36,7 +40,7 @@ $(NAME): $(OBJS) $(LIBFT) $(PRINTF)
 	@sleep 0.5
 	@printf "\033[93mPiping...\n\033[0m"
 	@printf "\033[92mReady to pipe stuff\n\033[0m"
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(PRINTF)
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBFT) $(PRINTF)
 
 
 $(LIBFT):
@@ -46,8 +50,6 @@ $(LIBFT):
 
 $(PRINTF):
 	@make -s -C $(PRINTF_DIR)
-
-all: $(NAME)
 
 clean:
 	@rm -f $(OBJS)
