@@ -6,11 +6,11 @@
 #    By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/06 02:51:23 by nvideira          #+#    #+#              #
-#    Updated: 2022/05/25 12:52:55 by nvideira         ###   ########.fr        #
+#    Updated: 2022/05/29 19:49:15 by nvideira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS=		pipex.c\
+SRCS=		bonus.c\
 			pip_utils.c
 
 OBJS=		$(SRCS:.c=.o)
@@ -38,8 +38,9 @@ $(NAME): $(OBJS) $(LIBFT) $(PRINTF)
 	@sleep 0.5
 	@printf "\033[93mPiping.. \033[0m \r"
 	@sleep 0.5
-	@printf "\033[93mPiping...\n\033[0m"
-	@printf "\033[92mReady to pipe stuff\n\033[0m"
+	@printf "\033[93mPiping...\033[0m"
+	@sleep 0.5
+	@printf "\033[92\nmReady to pipe stuff\n\033[0m"
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(LIBFT) $(PRINTF)
 
 

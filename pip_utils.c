@@ -6,7 +6,7 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:45:09 by nvideira          #+#    #+#             */
-/*   Updated: 2022/05/25 12:04:40 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/05/29 18:45:57 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,43 @@ char	*ft_substring(char const *s, unsigned int start, size_t len)
 	i++;
 	sub[i] = '\0';
 	return (sub);
+}
+
+char	*join_strings(char *path, int j, char *cmd)
+{
+	char	*dir;
+	char	*ret_path;
+
+	dir = ft_substring(path, j, ft_strichr(path, j, ':') - j);
+	ret_path = ft_strjoin(dir, cmd);
+	free(dir);
+	return (ret_path);
+}
+
+char	*find_path(char *cmd, char **envp)
+{
+	int		j;
+	char	*path;
+	char	*ret_path;
+
+	j = 0;
+	while (envp[j] && ft_strncmp(envp[j], "PATH=", 5))
+		j++;
+	path = envp[j];
+	while (path[j] && ft_strichr(path, j, ':') > -1)
+	{
+		ret_path = join_strings(path, j, cmd);
+		if (!access(ret_path, F_OK))
+			return (ret_path);
+		free(ret_path);
+		j += ft_strichr(path, j, ':') - j + 1;
+	}
+	if (path[j] && ft_strichr(path, j, ':') < 0)
+	{
+		ret_path = join_strings(path, j, cmd);
+		if (!access(ret_path, F_OK))
+			return (ret_path);
+		free(ret_path);
+	}
+	return (0);
 }
