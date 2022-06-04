@@ -6,7 +6,7 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 02:51:01 by nvideira          #+#    #+#             */
-/*   Updated: 2022/06/02 01:29:20 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/06/04 04:52:29 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	first_cmd(t_pipex pipex, char *cmd, char **envp)
 	execve(pipex.path, pipex.cmds, envp);
 }
 
-void	last_cmd(t_pipex pipex, char cmd, char **envp)
+void	last_cmd(t_pipex pipex, char *cmd, char **envp)
 {
 	dup2(pipex.bridge[0], STDIN_FILENO);
 	dup2(pipex.outfile, STDOUT_FILENO);
