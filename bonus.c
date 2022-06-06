@@ -6,7 +6,7 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/29 19:24:59 by nvideira          #+#    #+#             */
-/*   Updated: 2022/06/04 19:31:23 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/06/07 00:33:51 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int	heredoc(t_pipex pipex, char *limiter)
 {
 	char	*here;
+	int		file;
 
-	pipex.infile = open(".heredoc_tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (pipex.infile < 0)
+	file = open(".heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	if (file < 0)
 		perror("here_doc");
 	while (1)
 	{
@@ -25,28 +26,16 @@ int	heredoc(t_pipex pipex, char *limiter)
 		here = get_next_line(0);
 		if (!ft_strncmp(here, limiter, ft_strlen(limiter)))
 			break ;
-		write(pipex.infile, &here, ft_strlen(here));
-		write(pipex.infile, "\n", 1);
+		write(file, here, ft_strlen(here));
 		free(here);
 	}
 	free(here);
-	return (pipex.infile);
-}
-
-int	get_infile(t_pipex pipex, char **argv)
-{
-	if (!ft_strncmp(argv[1], "here_doc", 8))
+	close(file);
+	pipex.infile = open(".heredoc_tmp", O_RDONLY);
+	if (pipex.infile < 0)
 	{
-		pipex.here_doc = 1;
-		pipex.infile = heredoc(pipex, argv[2]);
-	}
-	else
-	{
-		pipex.here_doc = 0;
-		if (!access(argv[1], F_OK))
-			pipex.infile = open(argv[1], O_RDONLY);
-		else
-			perror("Infile");
+		unlink(".heredoc_tmp");
+		perror("here_doc");
 	}
 	return (pipex.infile);
 }
@@ -60,19 +49,31 @@ void	ft_pipex(t_pipex pipex, char *cmd, char **envp, int flag)
 		dup2(pipex.bridge[1], STDOUT_FILENO);
 	}
 	else if (flag == 2)
-	{
-		close(pipex.bridge[1]);
-		dup2(pipex.bridge[0], STDIN_FILENO);
 		dup2(pipex.outfile, STDOUT_FILENO);
-	}
 	else
-	{
-		dup2(pipex.bridge[0], STDIN_FILENO);
 		dup2(pipex.bridge[1], STDOUT_FILENO);
-	}
+	close(pipex.bridge[1]);
 	pipex.cmds = ft_split(cmd, ' ');
 	pipex.path = find_path(pipex.cmds[0], envp);
 	execve(pipex.path, pipex.cmds, envp);
+}
+
+void	decide(int i, t_pipex pipex, char **argv, char **envp)
+{
+	if (i - pipex.here_doc == 2)
+		ft_pipex(pipex, argv[i], envp, 1);
+	else if (i - pipex.here_doc == pipex.argc - 2)
+		ft_pipex(pipex, argv[i], envp, 2);
+	else
+		ft_pipex(pipex, argv[i], envp, 0);
+}
+
+void	parent(t_pipex pipex)
+{
+	dup2(pipex.bridge[0], STDIN_FILENO);
+	close(pipex.bridge[0]);
+	close(pipex.bridge[1]);
+	wait(NULL);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -82,8 +83,9 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 5)
 		return (ft_printf("Please insert at least 4 arguments.\n"));
-	pipex.outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	pipex.outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	pipex.infile = get_infile(pipex, argv);
+	pipex.argc = argc;
 	i = 1 + pipex.here_doc;
 	while (++i < argc - 1)
 	{
@@ -91,17 +93,12 @@ int	main(int argc, char **argv, char **envp)
 			perror("Piping");
 		pipex.pid1 = fork();
 		if (pipex.pid1 == 0)
-		{
-			if (i - pipex.here_doc == 2)
-				ft_pipex(pipex, argv[i], envp, 1);
-			else if (i - pipex.here_doc == argc - 2)
-				ft_pipex(pipex, argv[i], envp, 2);
-			else
-				ft_pipex(pipex, argv[i], envp, 0);
-		}
+			decide (i, pipex, argv, envp);
 		else
-			wait(NULL);
+			parent(pipex);
 	}
 	close(pipex.infile);
 	close(pipex.outfile);
+	if (pipex.here_doc == 1)
+		unlink(".heredoc_tmp");
 }

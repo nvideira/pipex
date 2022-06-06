@@ -6,7 +6,7 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 18:41:52 by nvideira          #+#    #+#             */
-/*   Updated: 2022/06/04 09:02:14 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/06/07 00:35:23 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,13 @@ typedef struct s_pipex
 	char	**cmds;
 	char	*path;
 	int		here_doc;
+	int		argc;
 }	t_pipex;
 
 int		ft_strichr(const char *s, int start, int c);
 char	*ft_substring(char const *s, unsigned int start, size_t len);
 char	*find_path(char *cmd, char **envp);
+int		get_infile(t_pipex pipex, char **argv);
+int		heredoc(t_pipex pipex, char *limiter);
 
 #endif

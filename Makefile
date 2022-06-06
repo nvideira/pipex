@@ -6,7 +6,7 @@
 #    By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/06 02:51:23 by nvideira          #+#    #+#              #
-#    Updated: 2022/06/04 09:17:42 by nvideira         ###   ########.fr        #
+#    Updated: 2022/06/06 23:11:50 by nvideira         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,10 @@ $(LIBFT):
 
 $(PRINTF):
 	@make -s -C $(PRINTF_DIR)
-
+	
+valgrind:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes\
+		./$(NAME) cat cat wc
 clean:
 	@rm -f $(OBJS)
 	@make -s clean -C $(LIBFT_DIR)

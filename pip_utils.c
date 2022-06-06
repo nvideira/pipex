@@ -6,7 +6,7 @@
 /*   By: nvideira <nvideira@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 12:45:09 by nvideira          #+#    #+#             */
-/*   Updated: 2022/05/29 18:45:57 by nvideira         ###   ########.fr       */
+/*   Updated: 2022/06/07 00:33:36 by nvideira         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,22 @@ char	*find_path(char *cmd, char **envp)
 		free(ret_path);
 	}
 	return (0);
+}
+
+int	get_infile(t_pipex pipex, char **argv)
+{
+	if (!ft_strncmp(argv[1], "here_doc", 8))
+	{
+		pipex.here_doc = 1;
+		pipex.infile = heredoc(pipex, argv[2]);
+	}
+	else
+	{
+		pipex.here_doc = 0;
+		if (!access(argv[1], F_OK))
+			pipex.infile = open(argv[1], O_RDONLY);
+		else
+			perror("Infile");
+	}
+	return (pipex.infile);
 }
